@@ -87,34 +87,6 @@ ORDER BY 1,2
 
 
 
--- looking at total population vs vaccination
-
-SELECT dea.continent, dea.location, dea.date, dea.population, vac.new_vaccinations
-, SUM(CAST(vac.new_vaccinations as bigint)) OVER (partition by dea.location ORDER BY dea.location, 
-dea.date) AS RollingPeopleVaccinated
-FROM PortfolioProject1.dbo.COVIDDEATHS_11dec$ dea
-join PortfolioProject1.dbo.COVIDVACCINATIONS_11dec$ vac
-ON  dea.location = vac.location
-AND dea.date = vac.date
-WHERE dea.continent IS NOT NULL
-ORDER BY 2,3;
-
-
--- CTE
-
-with 
-
-
-
-
--- creating view to store data for later visualizations
-
-create view continents_death_count AS
-SELECT continent, MAX(cast(total_deaths AS int)) AS Total_death_count
-FROM PortfolioProject1..coviddeaths_11dec$
-WHERE continent IS NOT NULL
-GROUP BY continent
---ORDER BY Total_death_count DESC
 
 
 SELECT *
